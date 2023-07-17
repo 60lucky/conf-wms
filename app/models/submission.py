@@ -29,5 +29,5 @@ class Submission(Base):
 
 class SubmittedPapers(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
-    submissionID: Mapped[int] = mapped_column(ForeignKey(Submission.__tablename__ + ".id"))  
+    submissionID: Mapped[int] = mapped_column(ForeignKey(Submission.__tablename__ + ".id"))
     paperID: Mapped[int] = mapped_column(ForeignKey(Paper.__tablename__ + ".id"))
