@@ -7,8 +7,7 @@ from sqlalchemy.dialects.postgresql import ENUM
 
 from typing import Optional
 
-from app.models.submission import SubmittedPapers
-from app.models.conference import Conference
+
 from app.models.user import User
 from app.db.base_class import Base
 
@@ -26,8 +25,8 @@ class PaperRevisions(Base):
     paperID: Mapped[int] = mapped_column(ForeignKey(Paper.__tablename__ + ".id"))
     revision_no: Mapped[int] = mapped_column(BigInteger)
     revision_link: Mapped[str] = mapped_column(String(225), unique=True)
-    revision_date_time: Mapped[dt.date] = mapped_column(DateTime, unique=True)
-    submissionID: Mapped[Optional[int]] = mapped_column(ForeignKey(SubmittedPapers.__tablename__ + ".id"))
+    revision_date_time: Mapped[DateTime] = mapped_column(DateTime, unique=True)
+    submissionID: Mapped[Optional[int]] = mapped_column(BigInteger)
 
 
 class PaperStatus(Base):

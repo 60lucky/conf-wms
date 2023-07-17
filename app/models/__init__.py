@@ -12,6 +12,4 @@ from app.models.paper import Paper
 
 from app.models.review import Review
 
-from app.models.journal import Journal
 
-from app.models.presentation import Presentation
