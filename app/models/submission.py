@@ -1,4 +1,3 @@
-import datetime as dt
 from sqlalchemy import BigInteger, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Mapped
@@ -17,7 +16,7 @@ class Submission(Base):
     journals: Mapped[str] = mapped_column(String(255))
     plag_policy: Mapped[int] = mapped_column(BigInteger)
     sample_paper: Mapped[str] = mapped_column(String(225), unique=True)
-    submission_deadline: Mapped[dt.date] = mapped_column(DateTime, unique=True)
+    submission_deadline: Mapped[DateTime] = mapped_column(DateTime, unique=True)
     submission_type: Mapped[ENUM] = mapped_column(
         ENUM(
             "Abstract",

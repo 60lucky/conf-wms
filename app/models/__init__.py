@@ -11,5 +11,3 @@ from app.models.event import Event
 from app.models.paper import Paper
 
 from app.models.review import Review
-
-

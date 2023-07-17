@@ -1,4 +1,3 @@
-import datetime as dt
 from sqlalchemy import BigInteger, String, ForeignKey, DateTime, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Mapped
@@ -29,5 +28,6 @@ class Review(Base):
 
 class ReviewComments(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    review_id: Mapped[int] = mapped_column(ForeignKey(Review.__tablename__ + ".id"))
     comment: Mapped[str] = mapped_column(Text)
-    comment_datetime: Mapped[dt.date] = mapped_column(DateTime, unique=True)
+    comment_datetime: Mapped[DateTime] = mapped_column(DateTime, unique=True)
