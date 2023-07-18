@@ -8,15 +8,17 @@ from sqlalchemy.dialects.postgresql import ENUM
 from typing import Optional
 
 from app.models.paper import PaperRevisions
-from app.models.user import User
+from app.models.conference import ConferenceEditors
+from app.models.conference import ConferenceAssociateEditors
+from app.models.conference import ConferenceReviewer
 from app.db.base_class import Base
 
 
 class Review(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
-    editorID: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
-    associate_editorID: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
-    reviewerID: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
+    editorID: Mapped[int] = mapped_column(ForeignKey(ConferenceEditors.__tablename__ + ".id"))
+    associate_editorID: Mapped[int] = mapped_column(ForeignKey(ConferenceAssociateEditors.__tablename__ + ".id"))
+    reviewerID: Mapped[int] = mapped_column(ForeignKey(ConferenceReviewer.__tablename__ + ".id"))
     revisionID: Mapped[int] = mapped_column(ForeignKey(PaperRevisions.__tablename__ + ".id"))
     process: Mapped[Optional[ENUM]] = mapped_column(
         ENUM(

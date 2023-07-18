@@ -25,14 +25,13 @@ class Conference(Base):
     international_advisory_board: Mapped[str] = mapped_column(String(225), unique=True)
     editor: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
 
-    user: Mapped["User"] = relationship("User")
 
 
 class ConferenceRoster(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     conferenceID: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))
     authorID: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
-   
+
 
 class ConferenceEditors(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)

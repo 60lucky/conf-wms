@@ -7,7 +7,6 @@ from sqlalchemy.dialects.postgresql import ENUM
 from typing import Optional
 
 from app.models.conference import Conference
-from app.models.paper import Paper
 from app.db.base_class import Base
 
 
@@ -28,5 +27,4 @@ class Submission(Base):
 
 class SubmittedPapers(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
-    submissionID: Mapped[int] = mapped_column(ForeignKey(Submission.__tablename__ + ".id"))
-    paperID: Mapped[int] = mapped_column(ForeignKey(Paper.__tablename__ + ".id"))
+    submission_id: Mapped[int] = mapped_column(ForeignKey(Submission.__tablename__ + ".id"))

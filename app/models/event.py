@@ -21,4 +21,3 @@ class Event(Base):
     max_participants: Mapped[int] = mapped_column(BigInteger)
     conferenceID: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))
 
-    conference: Mapped["Conference"] = relationship("Conference")
