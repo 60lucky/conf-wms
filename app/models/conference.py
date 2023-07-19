@@ -29,23 +29,23 @@ class Conference(Base):
 
 class ConferenceRoster(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
-    conferenceID: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))
-    authorID: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
+    conference_id: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))
+    author_id: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
 
 
 class ConferenceEditors(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
-    conferenceID: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))
-    editorID: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
+    conference_id: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))
+    editor_id: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
 
 
 class ConferenceAssociateEditors(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
-    conferenceID: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))   
-    associate_editorID: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
+    conference_id: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))   
+    associate_editor_id: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
 
 
 class ConferenceReviewer(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
-    conferenceID: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))   
-    reviewerID: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))
+    conference_id: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))   
+    reviewer_id: Mapped[int] = mapped_column(ForeignKey(User.__tablename__ + ".id"))

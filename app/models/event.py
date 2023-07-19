@@ -19,5 +19,4 @@ class Event(Base):
     event_start: Mapped[DateTime] = mapped_column(DateTime, unique=True) 
     event_end: Mapped[str] = mapped_column(Text)
     max_participants: Mapped[int] = mapped_column(BigInteger)
-    conferenceID: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))
-
+    conference_id: Mapped[int] = mapped_column(ForeignKey(Conference.__tablename__ + ".id"))
