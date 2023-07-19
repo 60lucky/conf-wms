@@ -1,8 +1,8 @@
 """auto-generated migration
 
-Revision ID: b2174a59a852
+Revision ID: 689ae6cdf759
 Revises: 
-Create Date: 2023-07-19 13:38:16.743250
+Create Date: 2023-07-19 14:58:24.912872
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = 'b2174a59a852'
+revision = '689ae6cdf759'
 down_revision = None
 branch_labels = None
 depends_on = None

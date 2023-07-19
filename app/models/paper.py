@@ -15,7 +15,7 @@ from app.db.base_class import Base
 class Paper(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     paper_name: Mapped[str] = mapped_column(String(225), unique=True)
-    author_id: Mapped[int] = mapped_column(ForeignKey(ConferenceRoster.__tablename__ + ".author_id"))
+    author_id: Mapped[int] = mapped_column(ForeignKey(ConferenceRoster.__tablename__ + ".id"))
     abstract: Mapped[str] = mapped_column(String(225), unique=True)
     fullpaper: Mapped[str] = mapped_column(String(225), unique=True)
    
@@ -26,7 +26,7 @@ class PaperRevisions(Base):
     revision_no: Mapped[int] = mapped_column(BigInteger)
     revision_link: Mapped[str] = mapped_column(String(225), unique=True)
     revision_date_time: Mapped[DateTime] = mapped_column(DateTime, unique=True)
-    submission_id: Mapped[Optional[int]] =  mapped_column(ForeignKey(SubmittedPapers.__tablename__ + ".submission_id"))
+    submission_id: Mapped[Optional[int]] =  mapped_column(ForeignKey(SubmittedPapers.__tablename__ + ".id"))
 
 
 class PaperStatus(Base):

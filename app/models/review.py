@@ -16,9 +16,9 @@ from app.db.base_class import Base
 
 class Review(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
-    editor_id: Mapped[int] = mapped_column(ForeignKey(ConferenceEditors.__tablename__ + ".editor_id"))
-    associate_editor_id: Mapped[int] = mapped_column(ForeignKey(ConferenceAssociateEditors.__tablename__ + ".associate_editor_id"))
-    reviewer_id: Mapped[int] = mapped_column(ForeignKey(ConferenceReviewer.__tablename__ + ".reviewer_id"))
+    editor_id: Mapped[int] = mapped_column(ForeignKey(ConferenceEditors.__tablename__ + ".id"))
+    associate_editor_id: Mapped[int] = mapped_column(ForeignKey(ConferenceAssociateEditors.__tablename__ + ".id"))
+    reviewer_id: Mapped[int] = mapped_column(ForeignKey(ConferenceReviewer.__tablename__ + ".id"))
     revision_id: Mapped[int] = mapped_column(ForeignKey(PaperRevisions.__tablename__ + ".id"))
     process: Mapped[Optional[ENUM]] = mapped_column(
         ENUM(
