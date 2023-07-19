@@ -1,8 +1,8 @@
 """auto-generated migration
 
-Revision ID: c305be501996
+Revision ID: b2174a59a852
 Revises: 
-Create Date: 2023-07-17 12:30:01.079243
+Create Date: 2023-07-19 13:38:16.743250
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = 'c305be501996'
+revision = 'b2174a59a852'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,13 +27,6 @@ def upgrade() -> None:
     sa.Column('membership', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
-    )
-    op.create_table('reviewcomments',
-    sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('comment', sa.Text(), nullable=False),
-    sa.Column('comment_datetime', sa.DateTime(), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('comment_datetime')
     )
     op.create_table('user',
     sa.Column('id', sa.BigInteger(), nullable=False),
@@ -74,48 +67,36 @@ def upgrade() -> None:
     sa.UniqueConstraint('international_advisory_board'),
     sa.UniqueConstraint('organizing_committee')
     )
-    op.create_table('paper',
-    sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('paper_name', sa.String(length=225), nullable=False),
-    sa.Column('authorID', sa.BigInteger(), nullable=False),
-    sa.Column('abstract', sa.String(length=225), nullable=False),
-    sa.Column('fullpaper', sa.String(length=225), nullable=False),
-    sa.ForeignKeyConstraint(['authorID'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('abstract'),
-    sa.UniqueConstraint('fullpaper'),
-    sa.UniqueConstraint('paper_name')
-    )
     op.create_table('conferenceassociateeditors',
     sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('conferenceID', sa.BigInteger(), nullable=False),
-    sa.Column('associate_editorID', sa.BigInteger(), nullable=False),
-    sa.ForeignKeyConstraint(['associate_editorID'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['conferenceID'], ['conference.id'], ),
+    sa.Column('conference_id', sa.BigInteger(), nullable=False),
+    sa.Column('associate_editor_id', sa.BigInteger(), nullable=False),
+    sa.ForeignKeyConstraint(['associate_editor_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['conference_id'], ['conference.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('conferenceeditors',
     sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('conferenceID', sa.BigInteger(), nullable=False),
-    sa.Column('editorID', sa.BigInteger(), nullable=False),
-    sa.ForeignKeyConstraint(['conferenceID'], ['conference.id'], ),
-    sa.ForeignKeyConstraint(['editorID'], ['user.id'], ),
+    sa.Column('conference_id', sa.BigInteger(), nullable=False),
+    sa.Column('editor_id', sa.BigInteger(), nullable=False),
+    sa.ForeignKeyConstraint(['conference_id'], ['conference.id'], ),
+    sa.ForeignKeyConstraint(['editor_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('conferencereviewer',
     sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('conferenceID', sa.BigInteger(), nullable=False),
-    sa.Column('reviewerID', sa.BigInteger(), nullable=False),
-    sa.ForeignKeyConstraint(['conferenceID'], ['conference.id'], ),
-    sa.ForeignKeyConstraint(['reviewerID'], ['user.id'], ),
+    sa.Column('conference_id', sa.BigInteger(), nullable=False),
+    sa.Column('reviewer_id', sa.BigInteger(), nullable=False),
+    sa.ForeignKeyConstraint(['conference_id'], ['conference.id'], ),
+    sa.ForeignKeyConstraint(['reviewer_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('conferenceroster',
     sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('conferenceID', sa.BigInteger(), nullable=False),
-    sa.Column('authorID', sa.BigInteger(), nullable=False),
-    sa.ForeignKeyConstraint(['authorID'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['conferenceID'], ['conference.id'], ),
+    sa.Column('conference_id', sa.BigInteger(), nullable=False),
+    sa.Column('author_id', sa.BigInteger(), nullable=False),
+    sa.ForeignKeyConstraint(['author_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['conference_id'], ['conference.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('event',
@@ -127,33 +108,12 @@ def upgrade() -> None:
     sa.Column('event_start', sa.DateTime(), nullable=False),
     sa.Column('event_end', sa.Text(), nullable=False),
     sa.Column('max_participants', sa.BigInteger(), nullable=False),
-    sa.Column('conferenceID', sa.BigInteger(), nullable=False),
-    sa.ForeignKeyConstraint(['conferenceID'], ['conference.id'], ),
+    sa.Column('conference_id', sa.BigInteger(), nullable=False),
+    sa.ForeignKeyConstraint(['conference_id'], ['conference.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('event_start'),
     sa.UniqueConstraint('reg_close'),
     sa.UniqueConstraint('reg_open')
-    )
-    op.create_table('paperrevisions',
-    sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('paperID', sa.BigInteger(), nullable=False),
-    sa.Column('revision_no', sa.BigInteger(), nullable=False),
-    sa.Column('revision_link', sa.String(length=225), nullable=False),
-    sa.Column('revision_date_time', sa.DateTime(), nullable=False),
-    sa.Column('submissionID', sa.BigInteger(), nullable=True),
-    sa.ForeignKeyConstraint(['paperID'], ['paper.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('revision_date_time'),
-    sa.UniqueConstraint('revision_link')
-    )
-    op.create_table('paperstatus',
-    sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('paperID', sa.BigInteger(), nullable=False),
-    sa.Column('is_final_revision', sa.Boolean(), nullable=False),
-    sa.Column('to_publish', sa.Boolean(), nullable=False),
-    sa.Column('presentation_status', postgresql.ENUM('Accept', 'Reject', 'Soft Accept', 'Soft Reject', name='presentation_status_enum'), nullable=True),
-    sa.ForeignKeyConstraint(['paperID'], ['paper.id'], ),
-    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('submission',
     sa.Column('id', sa.BigInteger(), nullable=False),
@@ -168,45 +128,86 @@ def upgrade() -> None:
     sa.UniqueConstraint('sample_paper'),
     sa.UniqueConstraint('submission_deadline')
     )
-    op.create_table('review',
+    op.create_table('paper',
     sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('editorID', sa.BigInteger(), nullable=False),
-    sa.Column('associate_editorID', sa.BigInteger(), nullable=False),
-    sa.Column('reviewerID', sa.BigInteger(), nullable=False),
-    sa.Column('revisionID', sa.BigInteger(), nullable=False),
-    sa.Column('process', postgresql.ENUM('Single Blind', 'Double Blind', name='review_process_enum'), nullable=True),
-    sa.ForeignKeyConstraint(['associate_editorID'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['editorID'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['reviewerID'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['revisionID'], ['paperrevisions.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.Column('paper_name', sa.String(length=225), nullable=False),
+    sa.Column('author_id', sa.BigInteger(), nullable=False),
+    sa.Column('abstract', sa.String(length=225), nullable=False),
+    sa.Column('fullpaper', sa.String(length=225), nullable=False),
+    sa.ForeignKeyConstraint(['author_id'], ['conferenceroster.author_id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('abstract'),
+    sa.UniqueConstraint('fullpaper'),
+    sa.UniqueConstraint('paper_name')
     )
     op.create_table('submittedpapers',
     sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('submissionID', sa.BigInteger(), nullable=False),
-    sa.Column('paperID', sa.BigInteger(), nullable=False),
-    sa.ForeignKeyConstraint(['paperID'], ['paper.id'], ),
-    sa.ForeignKeyConstraint(['submissionID'], ['submission.id'], ),
+    sa.Column('submission_id', sa.BigInteger(), nullable=False),
+    sa.ForeignKeyConstraint(['submission_id'], ['submission.id'], ),
     sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('paperrevisions',
+    sa.Column('id', sa.BigInteger(), nullable=False),
+    sa.Column('paper_id', sa.BigInteger(), nullable=False),
+    sa.Column('revision_no', sa.BigInteger(), nullable=False),
+    sa.Column('revision_link', sa.String(length=225), nullable=False),
+    sa.Column('revision_date_time', sa.DateTime(), nullable=False),
+    sa.Column('submission_id', sa.BigInteger(), nullable=True),
+    sa.ForeignKeyConstraint(['paper_id'], ['paper.id'], ),
+    sa.ForeignKeyConstraint(['submission_id'], ['submittedpapers.submission_id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('revision_date_time'),
+    sa.UniqueConstraint('revision_link')
+    )
+    op.create_table('paperstatus',
+    sa.Column('id', sa.BigInteger(), nullable=False),
+    sa.Column('paper_id', sa.BigInteger(), nullable=False),
+    sa.Column('is_final_revision', sa.Boolean(), nullable=False),
+    sa.Column('to_publish', sa.Boolean(), nullable=False),
+    sa.Column('presentation_status', postgresql.ENUM('Accept', 'Reject', 'Soft Accept', 'Soft Reject', name='presentation_status_enum'), nullable=True),
+    sa.ForeignKeyConstraint(['paper_id'], ['paper.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('review',
+    sa.Column('id', sa.BigInteger(), nullable=False),
+    sa.Column('editor_id', sa.BigInteger(), nullable=False),
+    sa.Column('associate_editor_id', sa.BigInteger(), nullable=False),
+    sa.Column('reviewer_id', sa.BigInteger(), nullable=False),
+    sa.Column('revision_id', sa.BigInteger(), nullable=False),
+    sa.Column('process', postgresql.ENUM('Single Blind', 'Double Blind', name='review_process_enum'), nullable=True),
+    sa.ForeignKeyConstraint(['associate_editor_id'], ['conferenceassociateeditors.associate_editor_id'], ),
+    sa.ForeignKeyConstraint(['editor_id'], ['conferenceeditors.editor_id'], ),
+    sa.ForeignKeyConstraint(['reviewer_id'], ['conferencereviewer.reviewer_id'], ),
+    sa.ForeignKeyConstraint(['revision_id'], ['paperrevisions.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('reviewcomments',
+    sa.Column('id', sa.BigInteger(), nullable=False),
+    sa.Column('review_id', sa.BigInteger(), nullable=False),
+    sa.Column('comment', sa.Text(), nullable=False),
+    sa.Column('comment_datetime', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['review_id'], ['review.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('comment_datetime')
     )
     # ### end Alembic commands ###
 
 
 def downgrade() -> None:
     # ### commands auto generated by Alembic - please adjust! ###
-    op.drop_table('submittedpapers')
+    op.drop_table('reviewcomments')
     op.drop_table('review')
-    op.drop_table('submission')
     op.drop_table('paperstatus')
     op.drop_table('paperrevisions')
+    op.drop_table('submittedpapers')
+    op.drop_table('paper')
+    op.drop_table('submission')
     op.drop_table('event')
     op.drop_table('conferenceroster')
     op.drop_table('conferencereviewer')
     op.drop_table('conferenceeditors')
     op.drop_table('conferenceassociateeditors')
-    op.drop_table('paper')
     op.drop_table('conference')
     op.drop_table('user')
-    op.drop_table('reviewcomments')
     op.drop_table('institution')
     # ### end Alembic commands ###
